@@ -20,3 +20,9 @@ variable "table_name" {
   default     = "terraform-state-locks"
   description = "DynamoDB table name for state locking"
 }
+
+variable "app_version" {
+  type        = string
+  default     = "1.0.0"
+  description = "Version of the application to deploy"
+}
