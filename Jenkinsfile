@@ -97,7 +97,6 @@ pipeline {
         }
     }
 }
-}
 // This Jenkinsfile defines a pipeline for deploying a Node.js application using Terraform and Ansible.
 // It includes stages for initializing Terraform, planning and applying the deployment, generating an Ansible inventory
 // file, and executing an Ansible playbook. The pipeline also includes parameters for application version and tag selection.
