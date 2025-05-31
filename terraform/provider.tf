@@ -5,10 +5,16 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = ">=4.46"
-      bucket_name = "state-tf-projects"
-      table_name  = "terraform-state-locks"
-      region      = "us-east-1"
     }
+  }
+
+  backend "s3" {
+    bucket         = "state-tf-projects"
+    key            = "practice build and deploy"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-state-locks"
+    encrypt        = true
+    
   }
 }
 
@@ -18,4 +24,6 @@ terraform {
 #provide authentication here
 provider "aws" {
   region = "us-east-1"
+
+
 }
