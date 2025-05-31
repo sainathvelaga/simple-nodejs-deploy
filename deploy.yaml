@@ -26,7 +26,7 @@
   - name: download and extract frontend code
     ansible.builtin.unarchive:
       src: http://nexus.sainathdevops.space:8081/repository/simple-nodejs-repo/com/nodejs/nodejs-app/1.5.0/nodejs-app-1.5.0.zip
-      dest: /var/www/myapp
+      dest: /var/www/html
       remote_src: yes
 
   # - name: copy backend conf
