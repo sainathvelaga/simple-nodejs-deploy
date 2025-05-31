@@ -43,7 +43,7 @@ data "aws_ami" "nexus_ami_info" {
 
 data "aws_route53_zone" "sainathdevops" {
   # name = "example.com."
-  zone_id = "Z05115792LWXAD9Q702HP"
+  zone_id = "Z03371851GK8ZYXUI8IO6"
 
 
 }
