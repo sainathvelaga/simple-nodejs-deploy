@@ -68,18 +68,17 @@ pipeline {
 
         stage("Execute Ansible") {
             steps {
-                stage('Ansible-Playbook Execution') {
-                    steps {
+
                     echo 'Executing Ansible Playbook'
 
                     sh '''
                     ansible-playbook -i hosts.ini deploy.yaml
                     '''
-                    }
+                
             }
         }
     }
-    }   
+    
     
     post { 
         always { 
