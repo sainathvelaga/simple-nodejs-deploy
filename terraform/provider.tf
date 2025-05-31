@@ -5,6 +5,9 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = ">=4.46"
+      bucket_name = "state-tf-projects"
+      table_name  = "terraform-state-locks"
+      region      = "us-east-1"
     }
   }
 }
