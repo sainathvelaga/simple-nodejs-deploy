@@ -64,27 +64,23 @@ pipeline {
                 '''
             }
         }
-    }
+    
 
         stage("Execute Ansible") {
             steps {
                 stage('Ansible-Playbook Execution') {
                     steps {
-                        echo 'Executing Ansible Playbook'
-                        // ansiblePlaybook(
-                        //     colorized: true, 
-                        //     credentialsId: 'ssh-cred', 
-                        //     installation: 'Default', 
-                        //     inventory: 'inventory.ini',
-                        //     extras: '-e host_group=\"tag_${TagKey}_${TagValue}\"', 
-                        //     playbook: 'deploy.yaml'
-                        // )
+                    echo 'Executing Ansible Playbook'
+
                     sh '''
                     ansible-playbook -i hosts.ini deploy.yaml
                     '''
+                    }
             }
-        }   
+        }
     }
+    }   
+    
     post { 
         always { 
             echo 'I will always say Hello again!'
@@ -96,5 +92,14 @@ pipeline {
         failure { 
             echo 'I will run when pipeline is failure'
         }
+        unstable { 
+            echo 'I will run when pipeline is unstable'
+        }
     }
 }
+}
+// This Jenkinsfile defines a pipeline for deploying a Node.js application using Terraform and Ansible.
+// It includes stages for initializing Terraform, planning and applying the deployment, generating an Ansible inventory
+// file, and executing an Ansible playbook. The pipeline also includes parameters for application version and tag selection.
+// The post section handles cleanup and notifications based on the pipeline's outcome. 
+// The pipeline is designed to run on a specific agent labeled 'AGENT-1' and has a timeout of 30 minutes.
