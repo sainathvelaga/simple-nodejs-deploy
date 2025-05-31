@@ -1,0 +1,40 @@
+- hosts: web
+  become: True
+  tasks:
+tasks:
+  - name: install nginx server
+    ansible.builtin.dnf:
+      name: nginx
+      state: latest
+  
+  - name: start and enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: delete default website
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
+
+  - name: create html directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: directory
+
+  - name: download and extract frontend code
+    ansible.builtin.unarchive:
+      src: http://nexus.sainathdevops.space:8081/repository/simple-nodejs-repo/com/nodejs/nodejs-app/1.5.0/nodejs-app-1.5.0.zip
+      dest: /usr/share/nginx/html
+      remote_src: yes
+
+  # - name: copy backend conf
+  #   ansible.builtin.copy:
+  #     src: expense.conf
+  #     dest: /etc/nginx/default.d/expense.conf
+
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted

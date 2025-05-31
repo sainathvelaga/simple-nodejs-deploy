@@ -7,7 +7,7 @@ module "Dev-instance" {
   vpc_security_group_ids = ["sg-0f66a2584cd9f9265"] #replace your SG
   subnet_id = "subnet-0f5c18f7cc4c8a12b" #replace your Subnet
   ami = data.aws_ami.ami_info.id
-  user_data = file("dev-setup.sh")
+  # user_data = file("dev-setup.sh")
   tags = {
     Name = "Dev-instance"
   }

@@ -1,6 +1,8 @@
 pipeline {
     agent {
         label 'AGENT-1'
+        choice(name: 'TagKey', choices: ["Environment"], description: 'Choose tag')
+        choice(name: 'TagValue', choices: ["Dev"], description: 'Choose tag')
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
@@ -45,9 +47,50 @@ pipeline {
                 sh """
                     cd terraform
                     terraform apply -auto-approve -var="app_version=${params.appVersion}"
-                """
+/*                     // // Capture Terraform output
+                    // def instance_id = sh(script: 'terraform output instance_id', returnStdout: true).trim()
+                    // // Create a variable for the instance ID
+                    // env.INSTANCE_ID = instance_id
+                    // // Print the instance ID
+                    // echo "Instance ID: ${env.INSTANCE_ID}" */
+
+                    terraform output -json > tf_output.json
+
+                    """
+            }
+    
+
+        }
+
+        stage('Generate Ansible Inventory') {
+            steps {
+                sh '''
+                    INSTANCE_IP=$(jq -r '.instance_ip.value' terraform/tf_output.json)
+                    echo "[web]" > hosts.ini
+                    echo "$INSTANCE_IP ansible_user=ec2-user ansible_password=DevOps321" >> hosts.ini
+                '''
             }
         }
+    }
+
+        stage("Execute Ansible") {
+            steps {
+                stage('Ansible-Playbook Execution') {
+                    steps {
+                        echo 'Executing Ansible Playbook'
+                        // ansiblePlaybook(
+                        //     colorized: true, 
+                        //     credentialsId: 'ssh-cred', 
+                        //     installation: 'Default', 
+                        //     inventory: 'inventory.ini',
+                        //     extras: '-e host_group=\"tag_${TagKey}_${TagValue}\"', 
+                        //     playbook: 'deploy.yaml'
+                        // )
+                    sh '''
+                    ansible-playbook -i hosts.ini deploy.yaml
+                    '''
+            }
+        }   
     }
     post { 
         always { 
