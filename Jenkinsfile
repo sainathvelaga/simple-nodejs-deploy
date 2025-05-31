@@ -7,11 +7,12 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
         ansiColor('xterm')
-        choice(name: 'TagKey', choices: ["Environment"], description: 'Choose tag')
-        choice(name: 'TagValue', choices: ["Dev"], description: 'Choose tag')
+
     }
     parameters {
         string(name: 'appVersion', defaultValue: '1.0.0', description: 'What is the application version?')
+        choice(name: 'TagKey', choices: ["Environment"], description: 'Choose tag')
+        choice(name: 'TagValue', choices: ["Dev"], description: 'Choose tag')
     }
     environment{
         def appVersion = '' //variable declaration
