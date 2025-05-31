@@ -47,13 +47,6 @@ pipeline {
                 sh """
                     cd terraform
                     terraform apply -auto-approve -var="app_version=${params.appVersion}"
-/*                     // // Capture Terraform output
-                    // def instance_id = sh(script: 'terraform output instance_id', returnStdout: true).trim()
-                    // // Create a variable for the instance ID
-                    // env.INSTANCE_ID = instance_id
-                    // // Print the instance ID
-                    // echo "Instance ID: ${env.INSTANCE_ID}" */
-
                     terraform output -json > tf_output.json
 
                     """
